@@ -1,0 +1,5 @@
+{
+  "name": "Populous: Oracle Edition",
+  "description": "A strategic god-game simulator prototype inspired by Populous: The Beginning, featuring a 3D planetary world and an AI-powered Divine Oracle to guide your Shaman's conquest.",
+  "requestFramePermissions": []
+}
