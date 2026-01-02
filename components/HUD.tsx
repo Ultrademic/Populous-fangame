@@ -19,7 +19,12 @@ const HUD: React.FC<HUDProps> = ({ state, onCast, onToggleFlagPlacement, onToggl
         <div className="flex gap-8">
           <StatItem label="Mana" value={Math.floor(state.mana)} color="text-blue-400" />
           <StatItem label="Wood" value={Math.floor(state.wood)} color="text-amber-600" />
-          <StatItem label="Villagers" value={Math.floor(state.followers)} color="text-green-400" />
+          <div className="flex flex-col">
+            <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Followers</span>
+            <span className="text-2xl font-black text-green-400">
+              {Math.floor(state.followers)}<span className="text-xs text-gray-500 font-normal">/{state.maxFollowers}</span>
+            </span>
+          </div>
         </div>
         
         <div className="h-10 w-px bg-white/10 mx-2"></div>
@@ -29,11 +34,11 @@ const HUD: React.FC<HUDProps> = ({ state, onCast, onToggleFlagPlacement, onToggl
             onClick={onToggleFlagPlacement}
             className={`px-4 py-2 rounded-lg font-bold text-xs uppercase transition-all border-2 ${
               state.isPlacingFlag 
-                ? 'bg-red-500 border-red-400 text-white animate-pulse' 
-                : 'bg-blue-600/80 border-blue-400 text-blue-100 hover:bg-blue-500'
+                ? 'bg-blue-500 border-blue-300 text-white animate-pulse' 
+                : 'bg-blue-900/40 border-blue-600/50 text-blue-300 hover:bg-blue-800 hover:text-white'
             }`}
           >
-            {state.isPlacingFlag ? 'Cancel' : 'Flag'}
+            {state.isPlacingFlag ? 'Cancel' : 'Move Flag'}
           </button>
 
           <button 
@@ -41,10 +46,10 @@ const HUD: React.FC<HUDProps> = ({ state, onCast, onToggleFlagPlacement, onToggl
             disabled={state.wood < 200}
             className={`px-4 py-2 rounded-lg font-bold text-xs uppercase transition-all border-2 ${
               state.isPlacingBuilding 
-                ? 'bg-amber-500 border-amber-400 text-white animate-pulse' 
+                ? 'bg-amber-500 border-amber-300 text-white animate-pulse' 
                 : state.wood < 200 
                   ? 'bg-gray-800 border-transparent text-gray-500 opacity-50 cursor-not-allowed'
-                  : 'bg-amber-600/80 border-amber-400 text-amber-100 hover:bg-amber-500 shadow-[0_0_10px_rgba(217,119,6,0.2)]'
+                  : 'bg-amber-900/40 border-amber-600/50 text-amber-300 hover:bg-amber-800 hover:text-white shadow-[0_0_15px_rgba(217,119,6,0.1)]'
             }`}
           >
             Build Hut (200W)

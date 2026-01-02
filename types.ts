@@ -7,7 +7,7 @@ export enum SpellType {
   LANDBRIDGE = 'Landbridge'
 }
 
-export type VillagerTask = 'IDLE' | 'MOVING' | 'GATHERING' | 'BUILDING';
+export type VillagerTask = 'IDLE' | 'MOVING' | 'GATHERING' | 'BUILDING' | 'PRAYING';
 
 export interface VillagerData {
   id: string;
@@ -16,16 +16,10 @@ export interface VillagerData {
   targetId?: string;
 }
 
-export interface BlueprintData {
-  id: string;
-  position: { x: number; y: number; z: number };
-  progress: number; // 0 to 100
-  type: 'HUT';
-}
-
 export interface GameState {
   mana: number;
   followers: number;
+  maxFollowers: number;
   wood: number;
   shamanAlive: boolean;
   enemiesNearby: number;
