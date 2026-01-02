@@ -21,7 +21,8 @@ const App: React.FC = () => {
     logs: ["Waiting for your command, Shaman..."],
     flagPosition: { x: 0, y: 10, z: 0 }, 
     isPlacingFlag: false,
-    isPlacingBuilding: false
+    isPlacingBuilding: false,
+    selectedVillagerId: null
   });
 
   useEffect(() => {
@@ -60,12 +61,12 @@ const App: React.FC = () => {
   };
 
   const handleCancelAll = useCallback(() => {
-    console.log("App: Mode Cancelled (ESC/Right-Click)");
     setGameState(prev => ({
       ...prev,
       isPlacingFlag: false,
       isPlacingBuilding: false,
-      currentSpell: null
+      currentSpell: null,
+      selectedVillagerId: null
     }));
   }, []);
 
@@ -79,7 +80,7 @@ const App: React.FC = () => {
   const handleToggleFlagPlacement = useCallback(() => {
     setGameState(prev => {
       const nextMode = !prev.isPlacingFlag;
-      return { ...prev, isPlacingFlag: nextMode, isPlacingBuilding: false, currentSpell: null };
+      return { ...prev, isPlacingFlag: nextMode, isPlacingBuilding: false, currentSpell: null, selectedVillagerId: null };
     });
   }, []);
 
@@ -90,7 +91,7 @@ const App: React.FC = () => {
     }
     setGameState(prev => {
       const nextMode = !prev.isPlacingBuilding;
-      return { ...prev, isPlacingBuilding: nextMode, isPlacingFlag: false, currentSpell: null };
+      return { ...prev, isPlacingBuilding: nextMode, isPlacingFlag: false, currentSpell: null, selectedVillagerId: null };
     });
   }, [gameState.wood, addLog]);
 
@@ -130,7 +131,8 @@ const App: React.FC = () => {
       ...prev,
       currentSpell: spell,
       isPlacingFlag: false,
-      isPlacingBuilding: false
+      isPlacingBuilding: false,
+      selectedVillagerId: null
     }));
     addLog(`Divine power channeled: ${spell}. Choose a target.`);
   };
@@ -140,6 +142,13 @@ const App: React.FC = () => {
       ...prev,
       mana: prev.mana - 50,
       currentSpell: null
+    }));
+  }, []);
+
+  const handleVillagerSelected = useCallback((id: string | null) => {
+    setGameState(prev => ({
+      ...prev,
+      selectedVillagerId: id
     }));
   }, []);
 
@@ -158,6 +167,8 @@ const App: React.FC = () => {
         flagPosition={gameState.flagPosition}
         activeSpell={gameState.currentSpell}
         onSpellCastComplete={handleSpellComplete}
+        selectedVillagerId={gameState.selectedVillagerId}
+        onVillagerSelect={handleVillagerSelected}
       />
 
       {!gameStarted && (
@@ -191,9 +202,12 @@ const App: React.FC = () => {
              </div>
           </div>
           
-          {(gameState.isPlacingFlag || gameState.isPlacingBuilding || gameState.currentSpell) && (
+          {(gameState.isPlacingFlag || gameState.isPlacingBuilding || gameState.currentSpell || gameState.selectedVillagerId) && (
             <div className="mt-4 bg-blue-600/30 border border-blue-400 p-3 rounded text-blue-100 text-xs italic animate-pulse shadow-lg backdrop-blur-md">
-              DIVINE MODE ACTIVE: Click to {gameState.currentSpell ? 'Cast' : 'Place'}, Right-click or ESC to cancel.
+              {gameState.selectedVillagerId 
+                ? 'VILLAGER SELECTED: Click on ground to move, or trees/foundations to work.'
+                : 'DIVINE MODE ACTIVE: Click to Target, Right-click or ESC to cancel.'
+              }
             </div>
           )}
         </div>

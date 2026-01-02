@@ -7,7 +7,7 @@ export enum SpellType {
   LANDBRIDGE = 'Landbridge'
 }
 
-export type VillagerTask = 'IDLE' | 'MOVING' | 'GATHERING' | 'BUILDING' | 'PRAYING';
+export type VillagerTask = 'IDLE' | 'MOVING' | 'GATHERING' | 'BUILDING' | 'PRAYING' | 'ENTERING';
 
 export interface VillagerData {
   id: string;
@@ -29,6 +29,7 @@ export interface GameState {
   flagPosition: { x: number; y: number; z: number } | null;
   isPlacingFlag: boolean;
   isPlacingBuilding: boolean;
+  selectedVillagerId: string | null;
 }
 
 export interface OracleMessage {
